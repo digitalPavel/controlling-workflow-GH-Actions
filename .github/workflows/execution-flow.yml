@@ -13,9 +13,12 @@ jobs:
         id: cache
         uses: actions/cache@v5
         with:
-          path: ~/.npm
+          path: node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        #skipped when a cache hit occurs on the key
+        #'cache' is a step above
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Lint code
         run: npm run lint
@@ -28,9 +31,12 @@ jobs:
         id: cache
         uses: actions/cache@v5
         with:
-          path: ~/.npm
+          path: node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        #skipped when a cache hit occurs on the key
+        #'cache' is a step above
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Test code
         id: run-tests
@@ -51,9 +57,12 @@ jobs:
         id: cache
         uses: actions/cache@v5
         with:
-          path: ~/.npm
+          path: node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        #skipped when a cache hit occurs on the key
+        #'cache' is a step above
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Build website
         id: build-website
@@ -85,5 +94,5 @@ jobs:
       - name: Output information
         run: |
           echo "Something went wrong"
-          echo "${{ github }}"
+          echo "${{ toJson(github) }}"
 
