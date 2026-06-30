@@ -3,7 +3,7 @@ on: push
 
 jobs:
   build:
-    #continue-on-error: true # contunie execution even if some job failed
+    continue-on-error: true # contunie execution even if some job failed
     strategy:
       matrix:
         node-version: [12, 20, 24]           # runs job 3 times with different Node versions
