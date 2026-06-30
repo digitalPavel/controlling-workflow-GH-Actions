@@ -1,9 +1,27 @@
 name: Reusable Deploy
-on: workflow_call # allows this workflow to be called from other workflow
+on: 
+  workflow_call: # allows this workflow to be called from other workflow
+    inputs: # ← defines what data caller can pass in
+            # like function parameters in programming
+        artifact-name:  # ← the parameter name
+                        # caller uses this name to pass a value
+            description: The name of the deployable artifact file    
+            required: false 
+            default: dist
+            type: string           
 jobs:
 
     deploy:
         runs-on: ubuntu-latest
         steps:
+
+            - name: Get Code
+              uses: actions/download-artifact@v7
+              with:
+                name: ${{ inputs.artifact-name}}
+            
+            - name: List files
+              run: ls
+
             - name: Output info
               run: echo "Output" 
