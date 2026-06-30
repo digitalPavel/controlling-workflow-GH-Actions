@@ -8,7 +8,7 @@ jobs:
       matrix:
         node-version: [12, 20, 24]           # runs job 3 times with different Node versions
         operating-system: [ubuntu-latest, windows-latest]  # x2 OS = 6 total combinations
-      fail-fast: false                        # don't cancel other jobs if one combination fails
+      #fail-fast: false                        # don't cancel other jobs if one combination fails
     
     runs-on: ${{ matrix.operating-system }}  # dynamically picks OS from matrix
     
