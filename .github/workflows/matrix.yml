@@ -10,10 +10,10 @@ jobs:
         operating-system: [ubuntu-latest, windows-latest]  # x2 OS = 6 total combinations
         include: #allows to add stand-alone combimation
             - node-version: 18
-            - operating-system: ubuntu-latest
+              operating-system: ubuntu-latest
         exclude:         #alows to exclude combination 
             - node-version: 12 
-            - operating-system: windows-latest
+              operating-system: windows-latest
     
     runs-on: ${{ matrix.operating-system }}  # dynamically picks OS from matrix
     
