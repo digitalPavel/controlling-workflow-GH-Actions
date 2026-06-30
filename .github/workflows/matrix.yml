@@ -1,0 +1,27 @@
+name: Matrix Demo
+on: push
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        node-version: [18, 20, 24]           # runs job 3 times with different Node versions
+        operating-system: [ubuntu-latest, windows-latest]  # x2 OS = 6 total combinations
+      fail-fast: false                        # don't cancel other jobs if one combination fails
+    
+    runs-on: ${{ matrix.operating-system }}  # dynamically picks OS from matrix
+    
+    steps:
+      - name: Get code
+        uses: actions/checkout@v6
+
+      - name: Install Node JS
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}  # dynamically picks Node version from matrix
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build

@@ -39,10 +39,11 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Test code
+        continue-on-error: true # the job shoud contunue even if that step fails 
         id: run-tests
         run: npm run test
       - name: Upload test report # failure() the step wont be skipped and tuns only if outcome == 'failure'
-        if: failure() && steps.run-tests.outcome == 'failure'
+        #iif: failure() && steps.run-tests.outcome == 'failure'
         uses: actions/upload-artifact@v7
         with:
           name: test-report
