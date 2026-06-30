@@ -35,8 +35,8 @@ jobs:
       - name: Test code
         id: run-tests
         run: npm run test
-      - name: Upload test report
-        if: failure() && steps.run-tests.outcome == 'failure'
+      - name: Upload test report # failure() the step wont be skipped and tuns only if outcome == 'failure'
+        if: failure() && steps.run-tests.outcome == 'failure' 
         uses: actions/upload-artifact@v7
         with:
           name: test-report
@@ -75,3 +75,13 @@ jobs:
         run: ls
       - name: Deploy
         run: echo "Deploying..."
+  report:
+    # to make sure that this job will run only if any other job failed 
+    if: failure() 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output information
+        run: |
+          echo "Something went wrong"
+          echo "${{ github }}"
+
