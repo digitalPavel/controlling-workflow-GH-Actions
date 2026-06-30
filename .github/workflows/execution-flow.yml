@@ -77,7 +77,8 @@ jobs:
         run: echo "Deploying..."
   report:
     # to make sure that this job will run only if any other job failed 
-    needs: [lint, deploy]
+    needs: [lint, deploy] #if nay oter job in front of that has failed 
+                          #in the entire chain(deploy only runs after build and test jobs) 
     if: failure() 
     runs-on: ubuntu-latest
     steps:
