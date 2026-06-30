@@ -75,6 +75,9 @@ jobs:
   deploy:
     needs: build
     uses: ./.github/workflows/reusable.yml
+    with: 
+      artifact-name: dist-files  # ← passes value to input
+                                 # if not passed → uses default 'dist'
 
   report:
     # to make sure that this job will run only if any other job failed 
