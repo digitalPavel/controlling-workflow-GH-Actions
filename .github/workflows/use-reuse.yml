@@ -78,6 +78,18 @@ jobs:
     with: 
       artifact-name: dist-files  # ← passes value to input
                                  # if not passed → uses default 'dist'
+    # secrets: 
+    #   some-secret: ${{secrets.MY_SECRET}} # ← secret
+  
+  print-deploy-result:
+    needs  : deploy
+    runs-on: ubuntu-latest
+    steps:
+     - name: Print deploy output
+       run: echo ${{needs.deploy.outputs.result}} # reads deploy job output(the output of  reudabel job is 
+                                                  # alredy avalible bc the deploy job uses: ./.github/workflows/reusable.yml  )
+                                                      # → prints: success (or failure)
+                                                      # needs.jobname.outputs.outputname
 
   report:
     # to make sure that this job will run only if any other job failed 

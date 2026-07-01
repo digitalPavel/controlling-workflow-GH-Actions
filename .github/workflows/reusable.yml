@@ -8,15 +8,26 @@ on:
             description: The name of the deployable artifact file    
             required: false 
             default: dist
-            type: string           
+            type: string   
+    outputs: # exposes deploy job output to the caller workflow
+        result:
+            description: The result of the deployment operation
+            value: ${{jobs.deploy.outputs.outcome}} #reusable workflow uses "jobs.jobname"
+
+    # secrets: # ← sensitive data, masked in logs       
+    #     some-secret:
+    #         required: false 
+            
 jobs:
 
     deploy:
+        outputs: 
+            outcome: ${{steps.Output-step.outputs.step-result}} # ← exposes to other jobs
         runs-on: ubuntu-latest
         steps:
 
             - name: Get Code
-              uses: actions/download-artifact@v7
+              uses: actions/download-artifact@v8
               with:
                 name: ${{ inputs.artifact-name}}  # ← reads the input value
                                                   # → 'dist-files' if passed, 'dist' if not
@@ -26,3 +37,9 @@ jobs:
 
             - name: Output info
               run: echo "Output" 
+
+            - name: Set output
+              id: Output-step  # ← id referenced in outputs above
+              run: echo "step-result=success" >> $GITHUB_OUTPUT
+               
+
